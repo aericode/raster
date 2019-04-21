@@ -156,7 +156,7 @@ void Canvas::drawCircle(Pixel pixel, int r, FileBuffer& fileBuffer, Color color)
     { 
     	fileBuffer.colorPixel(Pixel ( x_center, y_center - r), color);
     	fileBuffer.colorPixel(Pixel ( x_center - r, y_center), color);
-    	
+
     	fileBuffer.colorPixel(Pixel ( x + x_center,-y + y_center), color);
     	fileBuffer.colorPixel(Pixel ( y + x_center, x + y_center), color);
     	fileBuffer.colorPixel(Pixel (-y + x_center, x + y_center), color);
@@ -195,12 +195,11 @@ void Canvas::drawCircle(Pixel pixel, int r, FileBuffer& fileBuffer, Color color)
         } 
     } 
 
-    //it's always missing for some reason
 
 }
 
 void Canvas::drawPolyline(vector<Pixel> points, FileBuffer& fileBuffer, Color color){
-	for(int i = 0; i < 4; i++)
+	for(int i = 0; i < points.size() - 1; i++)
 		drawLine(points[i],points[i+1], fileBuffer, color);
 }
 
@@ -213,6 +212,7 @@ void Canvas::drawRectangle(int x1, int y1, int x2, int y2, FileBuffer& fileBuffe
 
 void Canvas::drawRectangle(Pixel p1, Pixel p2, FileBuffer& fileBuffer, Color color){
 	vector<Pixel> vertexes;
+	vertexes.reserve(5);
 
 	Pixel v1 = Pixel (p1.x, p1.y);
 	Pixel v2 = Pixel (p2.x, p1.y);
@@ -238,6 +238,7 @@ void Canvas::drawDiamond(int x1, int y1, int x2, int y2, FileBuffer& fileBuffer,
 
 void Canvas::drawDiamond(Pixel p1, Pixel p2, FileBuffer& fileBuffer, Color color){
 	vector<Pixel> vertexes;
+	vertexes.reserve(5);
 
 	int midHeight = (p1.y + p2.y)/2;
 	int midWidth  = (p1.x + p2.x)/2;
@@ -252,6 +253,46 @@ void Canvas::drawDiamond(Pixel p1, Pixel p2, FileBuffer& fileBuffer, Color color
 	vertexes.push_back(v2);
 	vertexes.push_back(v3);
 	vertexes.push_back(v4);
+	vertexes.push_back(v1);	
+	
+
+	drawPolyline(vertexes,fileBuffer,color);
+}
+
+
+	
+void Canvas::drawIsoTriangle(Pixel p1, Pixel p2, FileBuffer& fileBuffer, Color color){
+	vector<Pixel> vertexes;
+	vertexes.reserve(4);
+
+	int midWidth  = (p1.x + p2.x)/2;
+
+
+	Pixel v1 = Pixel (p1.x, p1.y);
+	Pixel v2 = Pixel (midWidth, p2.y);
+	Pixel v3 = Pixel (p2.x, p1.y);
+
+	vertexes.push_back(v1);
+	vertexes.push_back(v2);
+	vertexes.push_back(v3);
+	vertexes.push_back(v1);	
+	
+
+	drawPolyline(vertexes,fileBuffer,color);
+}
+
+
+void Canvas::drawRecTriangle(Pixel p1, Pixel p2, FileBuffer& fileBuffer, Color color){
+	vector<Pixel> vertexes;
+	vertexes.reserve(4);
+
+	Pixel v1 = Pixel (p1.x, p1.y);
+	Pixel v2 = Pixel (p2.x, p2.y);
+	Pixel v3 = Pixel (p2.x, p1.x);
+
+	vertexes.push_back(v1);
+	vertexes.push_back(v2);
+	vertexes.push_back(v3);
 	vertexes.push_back(v1);	
 	
 

@@ -1,0 +1,11 @@
+{
+	"Canvas":{
+		"x":400,
+		"y":200
+	},
+	"FileBuffer":{
+		"file":"image/default2.ppm",
+		"x":400,
+		"y":200
+	}
+}

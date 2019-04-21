@@ -22,12 +22,16 @@ public:
 	void drawLine(Pixel , Pixel, FileBuffer&, Color = DEFAULT_COLOR);
 	void drawCircle(int, int, int, FileBuffer&, Color = DEFAULT_COLOR);
 	void drawCircle(Pixel , int, FileBuffer&, Color = DEFAULT_COLOR);
-	
+
 	void drawPolyline(vector<Pixel>, FileBuffer&,Color = DEFAULT_COLOR);
 	void drawRectangle(int , int, int, int, FileBuffer&, Color = DEFAULT_COLOR);
 	void drawRectangle(Pixel , Pixel, FileBuffer&, Color = DEFAULT_COLOR);
 	void drawDiamond(int , int, int, int, FileBuffer&, Color = DEFAULT_COLOR);
 	void drawDiamond(Pixel , Pixel, FileBuffer&, Color = DEFAULT_COLOR);
+	
+	void drawIsoTriangle(Pixel , Pixel, FileBuffer&, Color = DEFAULT_COLOR);
+	void drawRecTriangle(Pixel , Pixel, FileBuffer&, Color = DEFAULT_COLOR);
+
 };
 
 
