@@ -13,7 +13,8 @@ int main(){
 	FileBuffer fileBuffer(400,200);
 
 	canvas.drawLine(80,80,100,100, fileBuffer);
-	canvas.drawSquare(80,80,100,100, fileBuffer);
+	canvas.drawRectangle(80,80,200,100, fileBuffer);
+	canvas.drawDiamond(80,80,100,100, fileBuffer);
 	canvas.drawCircle(Pixel(50,50), 10, fileBuffer);
 
 	fileBuffer.plotFile();
