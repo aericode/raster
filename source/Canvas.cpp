@@ -288,7 +288,7 @@ void Canvas::drawRecTriangle(Pixel p1, Pixel p2, FileBuffer& fileBuffer, Color c
 
 	Pixel v1 = Pixel (p1.x, p1.y);
 	Pixel v2 = Pixel (p2.x, p2.y);
-	Pixel v3 = Pixel (p2.x, p1.x);
+	Pixel v3 = Pixel (p2.x, p1.y);
 
 	vertexes.push_back(v1);
 	vertexes.push_back(v2);

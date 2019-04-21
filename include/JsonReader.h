@@ -1,13 +1,16 @@
 #ifndef JSONREADERH
 #define JSONREADERH
+#define DEFAULT_COLOR Color(0,0,0)
 
 #include "json.hpp"
 #include <fstream>
 #include <string>
+#include <vector>
 
 #include "Canvas.h"
+#include "Command.h"
 
-
+typedef vec3 Color;
 using json::JSON;
 using namespace std;
 
@@ -22,6 +25,7 @@ public:
 
 	Canvas readCanvas();
 	FileBuffer readFileBuffer();
+	vector<Command> readCommands();
 };
 
 JsonReader::JsonReader(){}
@@ -82,6 +86,56 @@ FileBuffer JsonReader::readFileBuffer(){
         	return FileBuffer(x,y,location);
         }
         
+    }
+}
+
+vector<Command> JsonReader::readCommands(){
+	if (loadedFile["Commands"].IsNull()){
+        cout<<"no instructions for Commands in JSON file"<<endl;
+        return vector<Command>();
+    }else{
+
+    	vector<Command> commandList;
+
+    	int num_primitives = loadedFile["Commands"].length();
+    	int num_coordinates;
+
+    	int xCoord;
+    	int yCoord;
+
+
+    	for(int i = 0; i < num_primitives; i++){
+
+    		Command nextCommand;
+			num_coordinates = loadedFile["Commands"][i]["coordinates"].length();
+
+			for(int j = 0; j < num_coordinates;j++){
+				xCoord = loadedFile["Commands"][i]["coordinates"][j][0].ToInt();
+				yCoord = loadedFile["Commands"][i]["coordinates"][j][1].ToInt();
+				nextCommand.addPosition(xCoord,yCoord);
+			}
+
+			//Color
+			if(loadedFile["Commands"][i]["color"].IsNull()){
+				nextCommand.color = DEFAULT_COLOR;
+			}else{
+
+				for(int i=0;i<3;i++)
+					nextCommand.color[i] = loadedFile["Commands"][i]["color"][i].ToInt();
+			}
+
+			//shape to draw
+			nextCommand.shape = loadedFile["Commands"][i]["shape"].ToString();
+
+
+			//Radius, height, general specification
+			if( !loadedFile["Commands"][i]["spec"].IsNull() ){
+				nextCommand.spec = loadedFile["Commands"][i]["spec"].ToInt();
+			}
+
+			commandList.push_back(nextCommand);
+        }
+        return commandList;
     }
 }
 

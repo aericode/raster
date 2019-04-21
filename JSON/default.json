@@ -7,5 +7,33 @@
 		"file":"image/default2.ppm",
 		"x":400,
 		"y":200
-	}
+	},
+	"Commands":[
+		{
+			"shape":"line",
+			"color":[0,0,0],
+			"coordinates":[[0,0],[30,30]]
+		},
+		{
+			"shape":"circle",
+			"color":[0,0,0],
+			"coordinates":[[30,30]],
+			"spec":5
+		},
+		{
+			"shape":"diamond",
+			"color":[0,0,0],
+			"coordinates":[[100,100],[150,150]]
+		},
+		{
+			"shape":"recTriangle",
+			"color":[0,0,0],
+			"coordinates":[[100,70],[220,120]]
+		},
+		{
+			"shape":"isoTriangle",
+			"color":[0,0,0],
+			"coordinates":[[50,50],[80,80]]
+		}
+	]
 }
