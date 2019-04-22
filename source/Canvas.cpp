@@ -298,3 +298,25 @@ void Canvas::drawRecTriangle(Pixel p1, Pixel p2, FileBuffer& fileBuffer, Color c
 
 	drawPolyline(vertexes,fileBuffer,color);
 }
+
+void Canvas::floodFill(Pixel coord, FileBuffer& fileBuffer, Color newColor){
+	Color oldColor = fileBuffer.colorAt(coord);
+	floodFill(coord, fileBuffer, oldColor, newColor);
+}
+
+//baseado em https://www.geeksforgeeks.org/flood-fill-algorithm-implement-fill-paint/
+void Canvas::floodFill(Pixel coord, FileBuffer& fileBuffer, Color oldColor, Color newColor){
+
+	if(fileBuffer.colorAt(coord) == oldColor)
+	{
+		int x = coord.x;
+		int y = coord.y;
+
+		fileBuffer.colorPixel(Pixel(x,y), newColor);
+
+		floodFill(Pixel(x + 1, y), fileBuffer, oldColor, newColor);
+		floodFill(Pixel(x, y + 1), fileBuffer, oldColor, newColor);
+		floodFill(Pixel(x - 1, y), fileBuffer, oldColor, newColor);
+		floodFill(Pixel(x, y - 1), fileBuffer, oldColor, newColor);
+	}
+}

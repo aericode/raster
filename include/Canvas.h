@@ -32,6 +32,9 @@ public:
 	void drawIsoTriangle(Pixel , Pixel, FileBuffer&, Color = DEFAULT_COLOR);
 	void drawRecTriangle(Pixel , Pixel, FileBuffer&, Color = DEFAULT_COLOR);
 
+	void floodFill(Pixel, FileBuffer&, Color);
+	void floodFill(Pixel, FileBuffer&, Color, Color);
+
 };
 
 

@@ -51,6 +51,10 @@ void drawCommand(Command command, Canvas canvas,FileBuffer& fileBuffer){
 		Pixel p2 = command.position.at(1);
 
 		canvas.drawRecTriangle(p1, p2, fileBuffer, color);
+	}else if(shape == "fill"){
+		Pixel coord = command.position.at(0);
+
+		canvas.floodFill(coord, fileBuffer, color);
 	}else{
 		cout << "comando \"" << shape << "\" desconhecido" << endl;
 	}

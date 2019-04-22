@@ -120,8 +120,9 @@ vector<Command> JsonReader::readCommands(){
 				nextCommand.color = DEFAULT_COLOR;
 			}else{
 
-				for(int i=0;i<3;i++)
-					nextCommand.color[i] = loadedFile["Commands"][i]["color"][i].ToInt();
+				nextCommand.color[0] = loadedFile["Commands"][i]["color"][0].ToInt();
+				nextCommand.color[1] = loadedFile["Commands"][i]["color"][1].ToInt();
+				nextCommand.color[2] = loadedFile["Commands"][i]["color"][2].ToInt();
 			}
 
 			//shape to draw

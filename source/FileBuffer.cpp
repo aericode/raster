@@ -52,3 +52,9 @@ void FileBuffer::colorPixel(Pixel pixel, Color color){
 	int arrayLine = pixel.x + pixel.y*xSize;
 	colorBuffer.at(arrayLine) = color;
 }
+
+Color FileBuffer::colorAt(Pixel pixel){
+	if(!isValidPixel(pixel))return Color(-1,-1,-1);
+	int arrayLine = pixel.x + pixel.y*xSize;
+	return colorBuffer.at(arrayLine);
+}

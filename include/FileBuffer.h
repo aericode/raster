@@ -27,6 +27,7 @@ public:
 	void bufferReset();
 	void plotFile();
 	void colorPixel(Pixel, Color = DEFAULT_COLOR);
+	Color colorAt(Pixel);
 };
 
 #endif
