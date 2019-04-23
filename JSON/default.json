@@ -41,9 +41,30 @@
 			"coordinates":[[60,100],[70,110]]
 		},
 		{
+			"shape":"circle",
+			"color":[0,0,0],
+			"coordinates":[[100,99]]
+		},
+		{
 			"shape":"fill",
 			"color":[255,0,0],
 			"coordinates":[[100,99]]
+		},
+		{
+			"shape":"curve",
+			"color":[0,0,0],
+			"coordinates":[[0,0],[20,20],[40,0]]
+		},
+		{
+			"shape":"aaLine",
+			"color":[255,0,0],
+			"coordinates":[[130, 30],[200, 60]]
+		},
+		{
+			"shape":"thickLine",
+			"color":[0,0,255],
+			"coordinates":[[50,70],[100,140]],
+			"spec":3
 		}
 	]
 }

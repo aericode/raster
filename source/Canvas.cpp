@@ -1,4 +1,7 @@
+#define WHITE Color(1,1,1)
+
 #include <vector>
+#include <bits/stdc++.h> 
 #include "Canvas.h"
 #include "Pixel.h"
 #include "FileBuffer.h"
@@ -319,4 +322,171 @@ void Canvas::floodFill(Pixel coord, FileBuffer& fileBuffer, Color oldColor, Colo
 		floodFill(Pixel(x - 1, y), fileBuffer, oldColor, newColor);
 		floodFill(Pixel(x, y - 1), fileBuffer, oldColor, newColor);
 	}
+}
+
+int Canvas::bezierGetPosition(int a, int b, float perc){
+	int delta = b - a;
+	return a + (delta * perc);
+}
+
+void Canvas::bezierCurve(Pixel p1, Pixel p2, Pixel p3, FileBuffer& fileBuffer, Color color){
+	Pixel a;
+	Pixel b;
+
+	Pixel drawLocation;
+
+	for( float i = 0 ; i < 1 ; i += 0.01 ){
+		a.x = bezierGetPosition(p1.x, p2.x, i);
+		a.y = bezierGetPosition(p1.y, p2.y, i);
+		b.x = bezierGetPosition(p2.x, p3.x, i);
+		b.y = bezierGetPosition(p2.y, p3.y, i);
+
+
+		drawLocation.x = bezierGetPosition( a.x , b.x, i);
+		drawLocation.y = bezierGetPosition( a.y , b.y, i);
+
+		fileBuffer.colorPixel(drawLocation, color);
+	}
+}
+
+
+//Implementação do xiaolin wu
+//adaptado de https://www.geeksforgeeks.org/anti-aliased-line-xiaolin-wus-algorithm/
+//utiliza o modelo da fonte para modificar o brilho da cor inserida
+
+//returns fractional part of a number 
+float Canvas::fPartOfNumber(float x) 
+{ 
+    if (x>0) return x - (int)x; 
+    else return x - ((int)x + 1); 
+  
+} 
+  
+//returns 1 - fractional part of number 
+float Canvas::rfPartOfNumber(float x) 
+{ 
+    return 1 - fPartOfNumber(x); 
+} 
+  
+void Canvas::aaDrawPixel( int x , int y , float brightness, FileBuffer& fileBuffer, Color color) 
+{ 
+	Color background = WHITE;
+	color.make_unit_vector();
+
+	Color unit_result = (color * brightness) + ((1 - brightness)* background );
+
+	unit_result*=255;
+
+	unit_result[0] = (int)unit_result[0];
+	unit_result[1] = (int)unit_result[1];
+	unit_result[2] = (int)unit_result[2];
+
+    fileBuffer.colorPixel(Pixel(x,y), unit_result);
+} 
+  
+void Canvas::drawAALine(int x0 , int y0 , int x1 , int y1, FileBuffer& fileBuffer, Color color) 
+{ 
+    int steep = abs(y1 - y0) > abs(x1 - x0) ; 
+  
+
+    if (steep) 
+    { 
+        swap(x0 , y0); 
+        swap(x1 , y1); 
+    } 
+    if (x0 > x1) 
+    { 
+        swap(x0 ,x1); 
+        swap(y0 ,y1); 
+    } 
+  
+    //compute the slope 
+    float dx = x1-x0; 
+    float dy = y1-y0; 
+    float gradient;
+    if (dx == 0.0){
+        gradient = 1; 
+    }else{
+    	gradient = dy/dx; 
+    }
+  
+    int xpxl1 = x0; 
+    int xpxl2 = x1; 
+    float intersectY = y0; 
+  
+    // main loop 
+    if (steep) 
+    { 
+        int x; 
+        for (x = xpxl1 ; x <=xpxl2 ; x++) 
+        { 
+            // pixel coverage is determined by fractional 
+            // part of y co-ordinate 
+            aaDrawPixel((int)intersectY, x, 
+                        rfPartOfNumber(intersectY), fileBuffer, color); 
+            aaDrawPixel((int)intersectY - 1, x, 
+                        fPartOfNumber(intersectY), fileBuffer, color); 
+            intersectY += gradient; 
+        } 
+    } 
+    else
+    { 
+        int x; 
+        for (x = xpxl1 ; x <=xpxl2 ; x++) 
+        { 
+            // pixel coverage is determined by fractional 
+            // part of y co-ordinate 
+            aaDrawPixel(x, (int)intersectY, 
+                        rfPartOfNumber(intersectY), fileBuffer, color); 
+            aaDrawPixel(x, (int)intersectY - 1, 
+                          fPartOfNumber(intersectY), fileBuffer, color); 
+            intersectY += gradient; 
+        } 
+    } 
+  
+} 
+
+
+void Canvas::lineRepeater(Pixel starter, Pixel final, FileBuffer& fileBuffer, Color color, int thickness){
+
+	//lineBres(starter,final);
+
+	int dx = final.x - starter.x;
+	int dy = final.y - starter.y;
+
+	bool isVertical = false;
+
+	if(dx == 0){
+		dx = 1;//não dividir por zero
+		isVertical = true;
+	}
+
+	if(dy/dx < 1 && !isVertical){
+        for(int i = 0 ; i < thickness;i++){
+
+        	Pixel   upStarter(starter.x  , starter.y + i);
+        	Pixel     upFinal(final.x    , final.y   + i);
+
+			Pixel   downStarter(starter.x, starter.y - i);
+			Pixel     downFinal(final.x  , final.y   - i);
+
+
+            drawLine(upStarter,upFinal, fileBuffer, color);
+			drawLine(downStarter,downFinal, fileBuffer, color);
+
+        }
+    }else{
+        for(int i = 0; i < thickness; i++){
+
+        	Pixel   rightStarter(starter.x + i, starter.y);
+        	Pixel     rightFinal(final.x   + i,   final.y);
+
+			Pixel   leftStarter(starter.x - i,  starter.y);
+			Pixel     leftFinal(final.x   - i,    final.y);
+
+
+            drawLine(rightStarter,rightFinal, fileBuffer, color);
+			drawLine(leftStarter,leftFinal, fileBuffer, color);
+        }
+    }
 }

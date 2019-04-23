@@ -55,6 +55,24 @@ void drawCommand(Command command, Canvas canvas,FileBuffer& fileBuffer){
 		Pixel coord = command.position.at(0);
 
 		canvas.floodFill(coord, fileBuffer, color);
+	}else if(shape == "curve"){
+		Pixel from = command.position.at(0);
+		Pixel detour = command.position.at(1);
+		Pixel to = command.position.at(2);
+
+		canvas.bezierCurve(from, detour, to, fileBuffer, color);
+	}else if(shape == "aaLine"){
+		Pixel start = command.position.at(0);
+		Pixel end = command.position.at(1);
+
+		canvas.drawAALine(start.x, start.y, end.x, end.y, fileBuffer, color);
+	}else if(shape == "thickLine"){
+		Pixel start = command.position.at(0);
+		Pixel end = command.position.at(1);
+
+		int thickness   = command.spec;
+
+		canvas.lineRepeater(start, end ,fileBuffer ,color , thickness);
 	}else{
 		cout << "comando \"" << shape << "\" desconhecido" << endl;
 	}
@@ -74,6 +92,7 @@ int main(){
 	vector<Command> commands = jsonReader.readCommands();
 
 	drawCommandList(commands, canvas, fileBuffer);
+	canvas.drawAALine(130, 30, 200, 60 , fileBuffer, Color(255,0,0) );
 	//canvas.drawLine(80,80,100,100, fileBuffer);
 	//canvas.drawRectangle(80,80,200,100, fileBuffer);
 	//canvas.drawDiamond(80,80,100,100, fileBuffer);

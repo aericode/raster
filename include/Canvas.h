@@ -11,6 +11,11 @@ using namespace std;
 typedef vec3 Color;
 
 class Canvas{
+private:
+	int bezierGetPosition(int, int, float);
+	void aaDrawPixel( int , int , float , FileBuffer&, Color);
+	float rfPartOfNumber(float ); 
+	float fPartOfNumber(float ); 
 public:
 	int xSize;
 	int ySize;
@@ -34,6 +39,12 @@ public:
 
 	void floodFill(Pixel, FileBuffer&, Color);
 	void floodFill(Pixel, FileBuffer&, Color, Color);
+
+	void bezierCurve(Pixel, Pixel, Pixel, FileBuffer&, Color);
+
+	void lineRepeater(Pixel, Pixel ,FileBuffer& , Color = DEFAULT_COLOR, int = 1);
+
+	void drawAALine(int, int, int, int ,FileBuffer& , Color );
 
 };
 

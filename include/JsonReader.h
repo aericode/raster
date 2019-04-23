@@ -119,7 +119,6 @@ vector<Command> JsonReader::readCommands(){
 			if(loadedFile["Commands"][i]["color"].IsNull()){
 				nextCommand.color = DEFAULT_COLOR;
 			}else{
-
 				nextCommand.color[0] = loadedFile["Commands"][i]["color"][0].ToInt();
 				nextCommand.color[1] = loadedFile["Commands"][i]["color"][1].ToInt();
 				nextCommand.color[2] = loadedFile["Commands"][i]["color"][2].ToInt();
